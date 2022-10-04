@@ -2,47 +2,36 @@
 #include <stdio.h>
 int tim=0;
 int main(){
-	int i, j, n, time, remain, flag=0, time_quantum;
-	int wait_time=0, turnaround_time=0, at[10], bt[10], rt[10];
+	int v, b[20], i,j, w[20], tw=0, taround[20], tt=0, n;
+	float avw, avt;
 	printf("\nEnter the number of processes: ");
 	scanf("%d", &n);
-	remain=n;
 	for(i=1; i<=n; i++){
-		printf("Process %d :", i);
-		printf("\tEnter the arrival time of process %d : ", i);
-		scanf("%d", &at[i]);
-		printf("\t\tEnter the burst time of process %d : ", i);
-		scanf("%d", &bt[i]);
-		rt[i]=bt[i];
+		printf("Enter the burst time of process %d : ", i);
+		scanf("%d", &b[i]);
 	}
-	printf("Enter the time quantum : ");
-	scanf("%d", &time_quantum);
-	printf("\n\nProcess \t|Waiting Time \t|Turn Around Time\n");
-	for(time=0, i=1; remain!=0;){
-		if(rt[i]<=time_quantum && rt[i]>0){
-			time+=rt[i];
-			rt[i]=0;
-			flag=1;
-		}else if(rt[i]>0){
-			rt[i]-=time_quantum;
-			time+=time_quantum;
+	for(i=1; i<=n; i++){
+		w[i]=tim;
+		for(j=1; j<=b[i]; j++){
+			tim++;
+			if(j==b[i]){
+				taround[i]=tim;
+			}
 		}
-		if(rt[i]==0 && flag==1){
-			remain--;
-			printf("%d \t\t  %d  \t\t\t %d\n", i,time-at[i]-bt[i], time-at[i]);
-			wait_time+=time-at[i]-bt[i];
-			turnaround_time+=time-at[i];
-			flag=0;
-		}
-		if(i==n)
-			i=1;
-		else if(at[i+1]<=time)
-			i++;
-		else
-			i=1;
 	}
-	printf("\nAverage Waiting Time: %f", wait_time*1.0/n);
-	printf("\nAverage Turn Around Time: %f\n", turnaround_time*1.0/n);
+	for(i=1; i<=n; i++){
+		tw+=w[i];
+	}
+	for(i=1; i<=n; i++){
+		tt+=taround[i];
+	}
+	avw=(float)tw/n;
+	avt=(float)tt/n;
+	for(i=1; i<=n; i++){
+		printf("\nProcess %d:\tWaiting Time= %d\t\tTurnaround Time= %d", i, w[i], taround[i]);
+	}
+	printf("\nAverage Waiting Time: %f", avw);
+	printf("\nAverage Turnaround Time: %f\n", avt);
 	
 	return 0;
 }
