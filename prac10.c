@@ -1,44 +1,42 @@
-#include<iostream>
-#include<stdio.h>
-using namespace std;
-int main()
-{
-int i,j,n,time,sum_wait=0,sum_turnaround=0,smallest;
-int at[10],bt[10],pt[10],rt[10],remain; 
-cout<<"\nEnter number of Processes: ";
-cin>>n;
-remain=n;
-cout<<"\nEnter arrival time, burst time and priority for:\n ";
-for(i=0;i<n;i++)
-{
- cout<<"\nProcess "<<i+1<<": ";
- cin>>at[i];
- cin>>bt[i];
- cin>>pt[i];
- rt[i]=bt[i];
-}
-pt[9]=11;
-cout<<"\n\nProcess\t|Turnaround time|waiting time\n";
-for(time=0;remain!=0;time++)
-{
-smallest=9;
-for(i=0;i<n;i++)
-{
-if(at[i]<=time && pt[i]<pt[smallest] && rt[i]>0)
-{
-smallest=i;
-}
-}
-rt[smallest]--;
-if(rt[smallest]==0)
-{
-remain--;
-cout<<"  P:"<<smallest+1<<"\t|\t    "<<time+1-at[smallest]<<"\t\t|\t"<<time+1-at[smallest]-bt[smallest]<<"\n";
-sum_wait+=time+1-at[smallest];
-sum_turnaround+=time+1-at[smallest]-bt[smallest];
-}
-}
-cout<<"\nAverage Waiting Time: "<<sum_wait*1.0/n;
-cout<<"\nAverage Turn Around Time: "<<sum_turnaround*1.0/n<<endl;
-return 0;
+#include <stdlib.h>
+#include <stdio.h>
+int main(){
+	int arrive[10], burst[20],rt[20],wait[20],turn[20], pr[20],i,j,n;
+	int time, sum_wait=0, sum_turn=0, smallest, remain;
+	printf("\nEnter the number of processes: ");
+	scanf("%d", &n);
+	remain=n;
+	for(i=0; i<n; i++){
+		printf("\tEProcess %d : \n", i+1);
+		printf("\tEnter the arrive time : ");
+		scanf("%d", &arrive[i]);
+		printf("\tEnter the burst time : ");
+		scanf("%d", &burst[i]);
+		printf("\tEnter the priority : ");
+		scanf("%d", &pr[i]);
+		rt[i]=burst[i];
+	}
+	pr[9]=11;
+	printf("\n\nProcess \t|Waiting Time \t|Turn Around Time\n");
+	for(time=0;remain!=0;time++)
+	{
+		smallest=9;
+		for(i=0;i<n;i++){
+			if(arrive[i]<=time && pr[i]<pr[smallest] && rt[i]>0){
+				smallest=i;
+			}
+		}
+		rt[smallest]--;
+		if(rt[smallest]==0)
+		{
+			remain--;
+			printf("%d \t\t   %d  \t\t   %d\n", smallest+1,time+1-arrive[smallest]-burst[smallest], time+1-arrive[smallest]);
+			sum_turn+=time+1-arrive[smallest];
+			sum_wait+=time+1-arrive[smallest]-burst[smallest];
+		}
+	}
+	printf("\nAverage Waiting Time: %f",  sum_wait*1.0/n);
+	printf("\nAverage Turn Around Time: %f\n",sum_turn*1.0/n );
+	
+	return 0;
 }
